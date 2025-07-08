@@ -1,14 +1,11 @@
+require("dotenv").config();
 let express = require("express");
-const userRoutes = require("./routes/users");
 const pool = require("./db");
 const cors = require("cors");
-const authenticateToken = require("./middleware/authMiddleware");
-require("dotenv").config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use("/users", userRoutes);
 
 async function getPostgresVersion() {
   const client = await pool.connect();
@@ -23,7 +20,7 @@ async function getPostgresVersion() {
 getPostgresVersion();
 
 // -------------------------- fetching booking list -----------------------------
-app.get("/bookings", authenticateToken, async (req, res) => {
+app.get("/bookings", async (req, res) => {
   const client = await pool.connect();
 
   try {

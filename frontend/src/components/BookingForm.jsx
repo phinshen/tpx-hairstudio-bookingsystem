@@ -9,20 +9,30 @@ export default function BookingForm() {
   const [service, setService] = useState("");
 
   function handleSubmit(event) {
-    event.preventDefault();
-    const bookingData = {
-      fullName: fullName,
-      phoneNumber: phoneNumber,
+    const payload = {
+      title: service,
+      description: fullName,
       date: date,
       time: time,
-      service: service,
+      phone_number: phoneNumber,
+      email: "example@gmail.com",
+      user_id: "1",
     };
+
+    fetch("http://localhost:3000/bookings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+
+    event.preventDefault();
     setFullName("");
     setPhoneNumber("");
     setDate("");
     setTime("");
     setService("");
-    console.log(bookingData);
   }
 
   return (
