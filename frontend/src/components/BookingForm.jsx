@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 
-export default function BookingForm() {
+export default function BookingForm({ onAddBooking }) {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [date, setDate] = useState("");
@@ -9,6 +9,8 @@ export default function BookingForm() {
   const [service, setService] = useState("");
 
   function handleSubmit(event) {
+    event.preventDefault();
+
     const payload = {
       title: service,
       description: fullName,
@@ -25,14 +27,15 @@ export default function BookingForm() {
       body: JSON.stringify(payload),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
-
-    event.preventDefault();
-    setFullName("");
-    setPhoneNumber("");
-    setDate("");
-    setTime("");
-    setService("");
+      .then((newBooking) => {
+        onAddBooking(newBooking);
+        setFullName("");
+        setPhoneNumber("");
+        setDate("");
+        setTime("");
+        setService("");
+      })
+      .catch((err) => console.error("Submit error:", err));
   }
 
   return (
@@ -87,9 +90,10 @@ export default function BookingForm() {
           required
         >
           <option value="">-- Select a Service --</option>
-          <option value="womanHaircut">Woman's Haircut</option>
-          <option value="menHaircut">Men's Haircut</option>
-          <option value="hairBlow">Hair Blow</option>
+          <option value="Woman's Haircut">Woman's Haircut</option>
+          <option value="Men's Haircut">Men's Haircut</option>
+          <option value="Hair Wash">Hair Wash</option>
+          <option value="Hair Styling">Hair Styling</option>
         </Form.Select>
       </Form.Group>
       <Button variant="primary" type="submit">
