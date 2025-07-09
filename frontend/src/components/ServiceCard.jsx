@@ -1,10 +1,10 @@
-import { Card, Col, Row, Container, Image } from "react-bootstrap";
+import { Card, Col, Row, Container, Image, Button } from "react-bootstrap";
 import haircut1 from "../../images/haircut1.jpg";
 import haircut2 from "../../images/haircut2.jpg";
 import haircolour from "../../images/haircolour.jpg";
 import hairtreatment from "../../images/hairtreatment.jpg";
 
-export default function ServiceCard() {
+export default function ServiceCard({ onBookNow }) {
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">
@@ -43,11 +43,13 @@ export default function ServiceCard() {
                     <strong>Duration:</strong> 30 mins
                   </Col>
                   <Col xs="auto">
-                    <strong>Price:</strong> RM
+                    <strong>Price:</strong> RM 25
                   </Col>
                 </Row>
                 <Col xs="auto">
-                  <button className="btn btn-primary">Book Now</button>
+                  <Button variant="primary" onClick={onBookNow}>
+                    Book Now
+                  </Button>
                 </Col>
               </Row>
             </Card.Body>
@@ -93,7 +95,9 @@ export default function ServiceCard() {
                   </Col>
                 </Row>
                 <Col xs="auto">
-                  <button className="btn btn-primary">Book Now</button>
+                  <Button variant="primary" onClick={onBookNow}>
+                    Book Now
+                  </Button>
                 </Col>
               </Row>
             </Card.Body>
@@ -142,7 +146,9 @@ export default function ServiceCard() {
                   </Col>
                 </Row>
                 <Col xs="auto">
-                  <button className="btn btn-primary">Book Now</button>
+                  <Button variant="primary" onClick={onBookNow}>
+                    Book Now
+                  </Button>
                 </Col>
               </Row>
             </Card.Body>
@@ -189,7 +195,9 @@ export default function ServiceCard() {
                   </Col>
                 </Row>
                 <Col xs="auto">
-                  <button className="btn btn-primary">Book Now</button>
+                  <Button variant="primary" onClick={onBookNow}>
+                    Book Now
+                  </Button>
                 </Col>
               </Row>
             </Card.Body>

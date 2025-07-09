@@ -63,7 +63,11 @@ export default function Home() {
           <p className="lead">Premium Barbering Experience in Sabah</p>
         </Container>
       </header>
-      <ServiceCard />
+      <ServiceCard
+        onBookNow={() =>
+          formRef.current?.scrollIntoView({ behavior: "smooth" })
+        }
+      />
 
       <Row className="d-flex align-items-center justify-content-center">
         <Col md={10}>
