@@ -1,6 +1,11 @@
 import { Table, Spinner, Alert, Button } from "react-bootstrap";
 
-export default function BookingList({ bookings, loading, onDelete }) {
+export default function BookingList({
+  bookings,
+  loading,
+  onDelete,
+  onEditBooking,
+}) {
   if (loading) return <Spinner animation="border" />;
   if (bookings.length === 0)
     return <Alert variant="info">No bookings yet.</Alert>;
@@ -15,6 +20,7 @@ export default function BookingList({ bookings, loading, onDelete }) {
           <th>Phone Number</th>
           <th>Date</th>
           <th>Time</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -27,6 +33,14 @@ export default function BookingList({ bookings, loading, onDelete }) {
             <td>{booking.date}</td>
             <td>{booking.time}</td>
             <td>
+              <Button
+                className="mx-1"
+                variant="warning"
+                size="sm"
+                onClick={() => onEditBooking(booking)}
+              >
+                Edit
+              </Button>
               <Button
                 variant="danger"
                 size="sm"

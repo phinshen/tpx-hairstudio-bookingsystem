@@ -1,41 +1,89 @@
-import { useState } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Form, Button } from "react-bootstrap";
 
-export default function BookingForm({ onAddBooking }) {
+export default function BookingForm({
+  onAddBooking,
+  onUpdateBooking,
+  bookingToEdit,
+}) {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [service, setService] = useState("");
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  useEffect(() => {
+    if (bookingToEdit) {
+      setFullName(bookingToEdit.description || "");
+      setPhoneNumber(bookingToEdit.phone_number || "");
+      setDate(bookingToEdit.date || "");
+      setTime(bookingToEdit.time || "");
+      setService(bookingToEdit.title || "");
+    } else {
+      resetForm();
+    }
+  }, [bookingToEdit]);
+
+  function resetForm() {
+    setFullName("");
+    setPhoneNumber("");
+    setDate("");
+    setTime("");
+    setService("");
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
 
     const payload = {
       title: service,
       description: fullName,
-      date: date,
-      time: time,
       phone_number: phoneNumber,
+      date,
+      time,
       email: "example@gmail.com",
       user_id: "1",
     };
 
-    fetch("http://localhost:3000/bookings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then((res) => res.json())
-      .then((newBooking) => {
-        onAddBooking(newBooking);
-        setFullName("");
-        setPhoneNumber("");
-        setDate("");
-        setTime("");
-        setService("");
+    if (bookingToEdit) {
+      fetch(`http://localhost:3000/bookings/${bookingToEdit.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       })
-      .catch((err) => console.error("Submit error:", err));
+        .then((res) => {
+          if (!res.ok) throw new Error("Update failed");
+          return res.json();
+        })
+        .then(() => {
+          onUpdateBooking();
+          alert("Booking updated successfully!");
+          resetForm();
+        })
+        .catch((err) => {
+          console.error("Update error:", err);
+          alert("Failed to update booking.");
+        });
+    } else {
+      fetch("http://localhost:3000/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Create failed");
+          return res.json();
+        })
+        .then(() => {
+          onAddBooking();
+          alert("Booking created successfully!");
+          resetForm();
+        })
+        .catch((err) => {
+          console.error("Create error:", err);
+          alert("Failed to submit booking.");
+        });
+    }
   }
 
   return (
@@ -45,8 +93,7 @@ export default function BookingForm({ onAddBooking }) {
         <Form.Control
           type="text"
           value={fullName}
-          placeholder="Enter your full name"
-          onChange={(event) => setFullName(event.target.value)}
+          onChange={(e) => setFullName(e.target.value)}
           required
         />
       </Form.Group>
@@ -56,8 +103,7 @@ export default function BookingForm({ onAddBooking }) {
         <Form.Control
           type="text"
           value={phoneNumber}
-          placeholder="Enter your phone number"
-          onChange={(event) => setPhoneNumber(event.target.value)}
+          onChange={(e) => setPhoneNumber(e.target.value)}
           required
         />
       </Form.Group>
@@ -67,7 +113,7 @@ export default function BookingForm({ onAddBooking }) {
         <Form.Control
           type="date"
           value={date}
-          onChange={(event) => setDate(event.target.value)}
+          onChange={(e) => setDate(e.target.value)}
           required
         />
       </Form.Group>
@@ -77,7 +123,7 @@ export default function BookingForm({ onAddBooking }) {
         <Form.Control
           type="time"
           value={time}
-          onChange={(event) => setTime(event.target.value)}
+          onChange={(e) => setTime(e.target.value)}
           required
         />
       </Form.Group>
@@ -86,18 +132,19 @@ export default function BookingForm({ onAddBooking }) {
         <Form.Label>Service:</Form.Label>
         <Form.Select
           value={service}
-          onChange={(event) => setService(event.target.value)}
+          onChange={(e) => setService(e.target.value)}
           required
         >
           <option value="">-- Select a Service --</option>
           <option value="Woman's Haircut">Woman's Haircut</option>
           <option value="Men's Haircut">Men's Haircut</option>
-          <option value="Hair Wash">Hair Wash</option>
-          <option value="Hair Styling">Hair Styling</option>
+          <option value="Hair Colouring">Hair Colouring</option>
+          <option value="Hair Treatment">Hair Treatment</option>
         </Form.Select>
       </Form.Group>
+
       <Button variant="primary" type="submit">
-        Submit
+        {bookingToEdit ? "Update Booking" : "Submit"}
       </Button>
     </Form>
   );
