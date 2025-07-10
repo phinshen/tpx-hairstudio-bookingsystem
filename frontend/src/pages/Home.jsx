@@ -16,7 +16,9 @@ export default function Home() {
   }, []);
 
   function fetchBookings() {
-    fetch("http://localhost:3000/bookings")
+    fetch(
+      "https://3c417fe6-c577-471a-aa7a-416bfeb95e8f-00-3e81h71zwa9rn.sisko.replit.dev/bookings"
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch bookings");
         return res.json();
@@ -32,9 +34,12 @@ export default function Home() {
   }
 
   function handleDelete(id) {
-    fetch(`http://localhost:3000/bookings/${id}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `https://3c417fe6-c577-471a-aa7a-416bfeb95e8f-00-3e81h71zwa9rn.sisko.replit.dev/bookings/${id}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Failed to delete");
         setBookings((prev) => prev.filter((b) => b.id !== id));

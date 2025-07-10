@@ -46,11 +46,14 @@ export default function BookingForm({
     };
 
     if (bookingToEdit) {
-      fetch(`http://localhost:3000/bookings/${bookingToEdit.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      })
+      fetch(
+        `https://3c417fe6-c577-471a-aa7a-416bfeb95e8f-00-3e81h71zwa9rn.sisko.replit.dev/bookings/${bookingToEdit.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      )
         .then((res) => {
           if (!res.ok) throw new Error("Update failed");
           return res.json();
@@ -65,11 +68,14 @@ export default function BookingForm({
           alert("Failed to update booking.");
         });
     } else {
-      fetch("http://localhost:3000/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      })
+      fetch(
+        "https://3c417fe6-c577-471a-aa7a-416bfeb95e8f-00-3e81h71zwa9rn.sisko.replit.dev/bookings",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      )
         .then((res) => {
           if (!res.ok) throw new Error("Create failed");
           return res.json();
