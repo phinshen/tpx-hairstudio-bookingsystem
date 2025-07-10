@@ -58,8 +58,8 @@ export default function BookingForm({
           if (!res.ok) throw new Error("Update failed");
           return res.json();
         })
-        .then(() => {
-          onUpdateBooking();
+        .then((createdBooking) => {
+          onUpdateBooking(createdBooking);
           alert("Booking updated successfully!");
           resetForm();
         })
