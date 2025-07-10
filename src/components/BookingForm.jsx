@@ -80,8 +80,8 @@ export default function BookingForm({
           if (!res.ok) throw new Error("Create failed");
           return res.json();
         })
-        .then(() => {
-          onAddBooking();
+        .then((createdBooking) => {
+          onAddBooking(createdBooking);
           alert("Booking created successfully!");
           resetForm();
         })
