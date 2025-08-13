@@ -1,11 +1,13 @@
-import BookingForm from "./components/BookingForm";
+import { AdminAuthProvider } from "./contexts/AdminAuthContext";
 import Home from "./pages/Home";
-import { Card } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function App() {
   return (
-    <div>
-      <Home />
-    </div>
+    <AdminAuthProvider>
+      <div>
+        <Home />
+      </div>
+    </AdminAuthProvider>
   );
 }
